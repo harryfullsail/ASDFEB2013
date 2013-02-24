@@ -1,26 +1,19 @@
-$(document).ready(function() {
-	$.ajax({
-		"url": "_view/books",
-		"dataType": "json",
-		"success": function(data) {
-			$.each(data.rows, function(index, book){
-				var  lists   = book.value.lists;
-				var title    = book.value.title;
-				var author   = book.value.author;
-				var titles   = book.value.titles;
-				var date     = book.value.date;
-				var genre    = book.value.genre;
-				var subject  = book.value.subject;
-				var rate 	 = book.value.rate;
-				var comments = book.value.comments;
-				$('#booklist').append(
+$('#home').live("pageshow", function() {
+	$.couch.db("asdbookapp").view("app/books", {
+		success: function(data) {
+			//console.log(data);
+			$('#booklist').empty();
+			$.each(data.rows, function(index, value){
+				var item = (value.value || value.doc);
+				$('#booklist').append( 
 					$('<li>').append(
-						$('<a>').attr("href", "#")
-							.text(title)
-					)
-				);
+						$('<a>')
+							.attr("href", "book.html")
+							.text(item.title)
+					)		
+				);	
 			});
-			$('#booklist').listview('refresh');
+			$('#booklist').listview('refresh');	
 		}
 	});
 });
