@@ -8,7 +8,7 @@ $('#home').live("pageshow", function() {
 				$('#booklist').append( 
 					$('<li>').append(
 						$('<a>')
-							.attr("href", "book.html")
+							.attr("href", "book.html?book=" + item.author)
 							.text(item.title)
 					)		
 				);	
