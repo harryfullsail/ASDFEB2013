@@ -33,9 +33,25 @@ var urlVars = function() {
 };
 
 $('#home1').live("pageshow", function() {
-	var book = urlVars()["book"];
+	//var book = urlVars()["book"];
 	//console.log(book);
-	$.couch.db("asdbookapp").view("app/bookInfo", {
-		key: "book:1" + book
+	$.couch.db("asdbookapp").view("app/authors", {
+		//key: "book:1" + book
+		success: function(data) {
+			//console.log(data);
+			$('#bookpage').empty();
+			$.each(data.rows, function(index, value){
+				var item = (value.value || value.doc);
+				$('#bookpage').append( 
+					$('<li>').append(
+						$('<a>')
+							.attr("href", "bookinfo.html?bookinfo=" + item.biography)
+							.text(item.author)
+					)		
+				);	
+			});
+			$('#bookpage').listview('refresh');	
+		}
 	});
 });
+
